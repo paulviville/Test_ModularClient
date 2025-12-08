@@ -1,5 +1,6 @@
 export default class ModuleCore {
 	#id;
+	#commands = { };
 
 	constructor ( id ) {
 		console.log( `ModuleCore - constructor - id: ${ id }` );
@@ -10,4 +11,7 @@ export default class ModuleCore {
 	get id ( ) {
 		return this.#id;
 	}
+
+	// registerOutboundCommands
+	// registerInboundCommands
 }

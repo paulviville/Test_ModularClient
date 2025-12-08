@@ -1,37 +1,63 @@
 export default class EventBus {
-	#events = { };
-	#callbackWrappers = { };
+	// #events = { };
+	// #callbackWrappers = { };
 	/// moduleId + command 
 
-
+	#callbacks = new Map( );
 
 	constructor ( ) {
 		console.log( `EventBus - constructor` );
 	}
 
-	on ( eventName = null, callback ) {
-		// console.log( `EventsController - on ${ eventName }` );
+	on ( id, command, callback ) {
+		console.log( `EventBus - on ${ id } ${ command }` );
 
-		// if ( eventName == null || this.#callbackWrappers[ callback ] ) {
-		// 	console.warn( `EventBus - on (${ eventName }) null or duplicate`)
-		// } 
+		if ( !this.#callbacks.has( id ) ) {
+			this.#callbacks.set( id, new Map( ) );
+		}
 
-
-		// const callbackWrapper = ( data ) => {
-		// 	callback?.( data );
-		// };
-
-		// this.#callbackWrappers[ callback ] = callbackWrapper;
-		// ( this.#events[ eventName ] ??= [ ] ).push( callbackWrapper );
+		this.#callbacks.get( id ).set( command, callback );
 	}
 
-	emit ( eventName = null, data ) {
-		// console.log( `EventsController - emit ${ eventName }` );
+	registerModuleCommand ( id, command, callback ) {
+		if ( !this.#callbacks.has( id ) ) {
+			this.#callbacks.set( id, new Map( ) );
+		}
 
-		// for ( const callback of this.#events[ eventName ] ) {
-		// 	callback( data );
-		// }
+		this.#callbacks.get( id ).set( command, callback );
 	}
+
+	/// registerModuleManagerCommand
+	/// registerServerCommand
+
+	// registerOut ( )
+	// registerModuleCommands = this.register.bind(this, )
+	
+
+
+	/// directions
+	/// inbound
+	/// outbound
+	/// client
+	/// modules
+
+
+	/// targets:
+	/// Server
+	/// ModuleManager <id> ~= instance server side
+	/// Module
+
+
+	emitOut ( scope, id, command, data ) {
+
+	}
+
+
+	emitSystem ( command, data ) {
+
+	}
+
+	// emitModule ( comma)
 
 	once ( eventName = null, callback ) {
 		// console.log( `EventsController - once ${ eventName }` );
@@ -55,5 +81,5 @@ export default class EventBus {
 		// delete this.#callbackWrappers[ callback ]
 	}
 
-	// removeAll ( eventName ) { }
+	removeAll ( eventName ) { }
 }
