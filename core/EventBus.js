@@ -4,6 +4,7 @@ export default class EventBus {
 	/// moduleId + command 
 
 	#callbacks = new Map( );
+	#registeredModules = new Map( ); // id, object
 
 	constructor ( ) {
 		console.log( `EventBus - constructor` );
@@ -19,13 +20,27 @@ export default class EventBus {
 		this.#callbacks.get( id ).set( command, callback );
 	}
 
-	registerModuleCommand ( id, command, callback ) {
-		if ( !this.#callbacks.has( id ) ) {
-			this.#callbacks.set( id, new Map( ) );
-		}
+	// registerModuleCommand ( id, command, callback ) {
+	// 	if ( !this.#callbacks.has( id ) ) {
+	// 		this.#callbacks.set( id, new Map( ) );
+	// 	}
 
-		this.#callbacks.get( id ).set( command, callback );
+	// 	this.#callbacks.get( id ).set( command, callback );
+	// }
+
+	registerModule ( id, module ) {
+		this.#registeredModules.set( id, module );
 	}
+
+	
+
+	unregisterModule ( id ) {
+
+	}
+
+	// emitNetwork ( domain, id, command, data ) {
+
+	// }
 
 	/// registerModuleManagerCommand
 	/// registerServerCommand

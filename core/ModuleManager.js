@@ -1,7 +1,8 @@
 import ModuleTypes from "../modules/ModuleTypes.js";
+import ModuleCore from "./ModuleCore.js";
 
 
-export default class ModuleManager {
+export default class ModuleManager extends ModuleCore {
 	#commands = {
 		requestModule : "REQUEST_MODULE",
 		addModule : "ADD_MODULE",
