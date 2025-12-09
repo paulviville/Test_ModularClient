@@ -28,19 +28,39 @@ export default class EventBus {
 	// 	this.#callbacks.get( id ).set( command, callback );
 	// }
 
-	registerModule ( id, module ) {
-		this.#registeredModules.set( id, module );
+	registerModule ( module ) {
+		console.log( `EventBus - registerModule ${ module?.id }` );
+
+		this.#registeredModules.set( module?.id, module );
+
+		console.log(this.#registeredModules)
+	};
+
+	unregisterModule ( module ) {
+		console.log( `EventBus - unregisterModule ${ module?.id }` );
+
+		/// TODO: clean up first
+
+		this.#registeredModules.delete( module?.id );
 	}
 
-	
+	emitModule ( id, command, data ) {
+		console.log( `EventBus - emitModule ${ id }` );
 
-	unregisterModule ( id ) {
+		if( !this.#registeredModules.has( id ) ) {
+			console.warn( `module ${ id } is not registered `)
+			return;
+		}
 
+		const module = this.#registeredModules.get( id );
+		console.log(module)
+		module.receiveCommand( command, data ); 
 	}
 
-	// emitNetwork ( domain, id, command, data ) {
+	emitNetwork ( id, command, data ) {
+		console.log( `EventBus - emitModule ${ id }` );
 
-	// }
+	}
 
 	/// registerModuleManagerCommand
 	/// registerServerCommand
@@ -62,15 +82,6 @@ export default class EventBus {
 	/// ModuleManager <id> ~= instance server side
 	/// Module
 
-
-	emitOut ( scope, id, command, data ) {
-
-	}
-
-
-	emitSystem ( command, data ) {
-
-	}
 
 	// emitModule ( comma)
 

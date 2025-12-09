@@ -1,13 +1,16 @@
 // import Module from "./modules/module.js";
 
-import ModuleLambda from "./modules/ModuleLambda/ModuleLambda.js";
+import EventBus from "./core/EventBus.js";
 import ModuleTypes from "./modules/ModuleTypes.js";
 
-// const module = new Module ( 0 );
+const eventBus = new EventBus( );
 
 console.log(ModuleTypes)
 
-const lambda0 = new ModuleLambda( 0 );
-const lambda1 = new ModuleLambda( 1 );
+const modulePing = new ModuleTypes.Ping( 0 );
+modulePing.register( eventBus );
+const modulePing1 = new ModuleTypes.Ping( 1 );
+modulePing1.register( eventBus );
 
-console.log(lambda0.id)
+eventBus.emitModule( 0, "PING", {});
+eventBus.emitModule( 1, "PONG", {});
