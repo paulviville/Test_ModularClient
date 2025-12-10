@@ -5,20 +5,22 @@ export default class EventBus {
 
 	#callbacks = new Map( );
 	#registeredModules = new Map( ); // id, object
+	#id;
+	#networkManager;
 
 	constructor ( ) {
 		console.log( `EventBus - constructor` );
 	}
 
-	on ( id, command, callback ) {
-		console.log( `EventBus - on ${ id } ${ command }` );
+	// on ( id, command, callback ) {
+	// 	console.log( `EventBus - on ${ id } ${ command }` );
 
-		if ( !this.#callbacks.has( id ) ) {
-			this.#callbacks.set( id, new Map( ) );
-		}
+	// 	if ( !this.#callbacks.has( id ) ) {
+	// 		this.#callbacks.set( id, new Map( ) );
+	// 	}
 
-		this.#callbacks.get( id ).set( command, callback );
-	}
+	// 	this.#callbacks.get( id ).set( command, callback );
+	// }
 
 	// registerModuleCommand ( id, command, callback ) {
 	// 	if ( !this.#callbacks.has( id ) ) {
@@ -45,7 +47,7 @@ export default class EventBus {
 	}
 
 	emitModule ( id, command, data ) {
-		console.log( `EventBus - emitModule ${ id }` );
+		console.log( `EventBus - ${this.#id} - emitModule ${ id }` );
 
 		if( !this.#registeredModules.has( id ) ) {
 			console.warn( `module ${ id } is not registered `)
@@ -53,13 +55,28 @@ export default class EventBus {
 		}
 
 		const module = this.#registeredModules.get( id );
-		console.log(module)
 		module.receiveCommand( command, data ); 
 	}
 
-	emitNetwork ( id, command, data ) {
-		console.log( `EventBus - emitModule ${ id }` );
+	registerNetworkManager ( networkManager ) {
+		console.log( `EventBus - registerNetworkManager` );
 
+		this.#networkManager = networkManager;
+		this.#id = this.#networkManager.addEventBus( this );
+	}
+
+	emitNetwork ( id, command, data ) {
+		console.log( `EventBus - ${this.#id} - emitModule ${ id }` );
+
+		this.#networkManager.sendMessage( this.#id, {moduleId: id, command, data});
+	}
+
+	receiveMessage ( message ) {
+		console.log( `EventBus - ${this.#id} - receiveMessage` );
+		// console.log(message)
+		const { moduleId, command, data } = message;
+		// console.log(moduleId, command)
+		this.emitModule( moduleId, command, data);
 	}
 
 	/// registerModuleManagerCommand

@@ -20,6 +20,7 @@ export default class ModuleCore {
 
 		this.#eventBus = eventBus;
 		this.#eventBus.registerModule( this );
+		this.#emit = this.#eventBus.emitNetwork.bind( this.#eventBus, this.#id );
 	};
 
 	unregister ( ) {
@@ -27,7 +28,7 @@ export default class ModuleCore {
 
 		this.#eventBus.unregisterModule( this );
 		this.#eventBus = null;
-		this.#emit = this.#eventBus.emitNetwork.bind( this.#eventBus, this.#id );
+		this.#emit = null;
 	};
 
 	addCommandHandler ( command, handler ) {
@@ -57,5 +58,6 @@ export default class ModuleCore {
 	emitCommand ( command, data ) {
 		console.log( `ModuleCore - emitCommand - ${ command }` );
 
+		this.#emit( command, data );
 	};
 }

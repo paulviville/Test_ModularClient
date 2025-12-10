@@ -30,4 +30,6 @@ export default class ModulePing extends ModuleCore {
 		console.log( `ModulePing - onPong - id: ${ this.id }` );
 		
 	}
+
+	
 }
