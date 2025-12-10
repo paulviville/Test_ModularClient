@@ -1,6 +1,7 @@
 // import Module from "./modules/module.js";
 
 import EventBus from "./core/EventBus.js";
+import ModuleManager from "./core/ModuleManager.js";
 import ModuleTypes from "./modules/ModuleTypes.js";
 
 
@@ -45,6 +46,12 @@ console.log(ModuleTypes)
 // eventBus.emitModule( 1, "PONG", {});
 
 
+const moduleManager0 = new ModuleManager( 0 );
+const moduleManager0_ = new ModuleManager( 0 );
+moduleManager0.register( eventBus );
+moduleManager0_.register( eventBus_ );
+
+
 
 const modulePing0 = new ModuleTypes.Ping( 0 );
 modulePing0.register( eventBus );
@@ -53,4 +60,4 @@ const modulePing0_ = new ModuleTypes.Ping( 0 );
 modulePing0_.register( eventBus_ );
 
 modulePing0_.emitCommand("PING", {});
-modulePing0.emitCommand("PING", {});
+// modulePing0.emitCommand("PING", {});
