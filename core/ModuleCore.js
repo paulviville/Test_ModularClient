@@ -4,6 +4,7 @@ export default class ModuleCore {
 	#commandHandlers = new Map( );
 	#eventBus = null;
 	#emit = null;
+	#data
 
 	constructor ( id = 0xFFFFFFFF ) {
 		console.log( `ModuleCore - constructor - id: ${ id }` );
@@ -14,6 +15,10 @@ export default class ModuleCore {
 	get id ( ) {
 		return this.#id;
 	};
+
+	test ( ) {
+		console.log(this.#data)
+	}
 
 	register ( eventBus ) {
 		console.log( `ModuleCore - register` );
@@ -60,4 +65,8 @@ export default class ModuleCore {
 
 		this.#emit( command, data );
 	};
+
+	get eventBus ( ) {
+		return this.#eventBus;
+	}
 }

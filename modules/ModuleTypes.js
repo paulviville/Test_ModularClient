@@ -1,3 +1,4 @@
+import ModuleManager from "../core/ModuleManager.js";
 import ModuleLambda from "./ModuleLambda/ModuleLambda.js"
 import ModulePing from "./ModulePing/ModulePing.js"
 

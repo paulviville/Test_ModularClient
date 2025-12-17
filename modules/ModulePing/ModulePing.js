@@ -8,7 +8,7 @@ const commandsPing = {
 export default class ModulePing extends ModuleCore {
 
 	#data = {
-		
+		test: 0,
 	};
 
 	constructor ( id ) {
@@ -23,13 +23,25 @@ export default class ModulePing extends ModuleCore {
 	onPing ( data ) {
 		console.log( `ModulePing - onPing - id: ${ this.id }` );
 
-		this.emitCommand( commandsPing.pong, data );
+		const responseData = {
+			t0: data.t0,
+			t1: performance.now( ),
+		}
+		this.emitCommand( commandsPing.pong, responseData );
 	}
 
 	onPong ( data ) {
 		console.log( `ModulePing - onPong - id: ${ this.id }` );
 		
+		const t2 = performance.now( );
+		console.log( data, t2 );
 	}
 
-	
+	ping ( ) 
+	{
+		console.log( `ModulePing - ping - id: ${ this.id }` );
+
+		const data = { t0: performance.now( ) };
+		this.emitCommand( commandsPing.ping, data );
+	}
 }

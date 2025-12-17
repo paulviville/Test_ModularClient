@@ -51,13 +51,16 @@ const moduleManager0_ = new ModuleManager( 0 );
 moduleManager0.register( eventBus );
 moduleManager0_.register( eventBus_ );
 
+moduleManager0.emitCommand("REQUEST_MODULE", {type: "Ping"});
 
+window.modules = moduleManager0.modules;
 
-const modulePing0 = new ModuleTypes.Ping( 0 );
-modulePing0.register( eventBus );
+// const modulePing0 = new ModuleTypes.Ping( 0 );
+// modulePing0.register( eventBus );
 
-const modulePing0_ = new ModuleTypes.Ping( 0 );
-modulePing0_.register( eventBus_ );
+// const modulePing0_ = new ModuleTypes.Ping( 0 );
+// modulePing0_.register( eventBus_ );
 
-modulePing0_.emitCommand("PING", {});
+// modulePing0_.emitCommand("PING", {});
+// modulePing0_.ping();
 // modulePing0.emitCommand("PING", {});

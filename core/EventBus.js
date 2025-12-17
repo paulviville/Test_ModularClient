@@ -4,7 +4,7 @@ export default class EventBus {
 	/// moduleId + command 
 
 	#callbacks = new Map( );
-	#registeredModules = new Map( ); // id, object
+	#registeredModules = new Map( ); // id, object || [ ...objects ] for piggy backing
 	#id;
 	#networkManager;
 
@@ -35,7 +35,7 @@ export default class EventBus {
 
 		this.#registeredModules.set( module?.id, module );
 
-		console.log(this.#registeredModules)
+		console.log( this.#id, this.#registeredModules );
 	};
 
 	unregisterModule ( module ) {
