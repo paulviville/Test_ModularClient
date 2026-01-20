@@ -66,7 +66,7 @@ export default class ModuleManager extends ModuleCore {
 		const constructor = ModuleTypes[ type ];
 		const module = new constructor( id );
 		module.register( this.eventBus );
-		console.log(constructor)
+		this.#modules.set( id, module );
 	}
 
 	removeModule ( ) {

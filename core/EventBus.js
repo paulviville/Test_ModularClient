@@ -74,6 +74,7 @@ export default class EventBus {
 	receiveMessage ( message ) {
 		console.log( `EventBus - ${this.#id} - receiveMessage` );
 		// console.log(message)
+		/// deserialize message header ?
 		const { moduleId, command, data } = message;
 		// console.log(moduleId, command)
 		this.emitModule( moduleId, command, data);
@@ -85,44 +86,9 @@ export default class EventBus {
 	// registerOut ( )
 	// registerModuleCommands = this.register.bind(this, )
 	
+	once ( eventName = null, callback ) { }
 
-
-	/// directions
-	/// inbound
-	/// outbound
-	/// client
-	/// modules
-
-
-	/// targets:
-	/// Server
-	/// ModuleManager <id> ~= instance server side
-	/// Module
-
-
-	// emitModule ( comma)
-
-	once ( eventName = null, callback ) {
-		// console.log( `EventsController - once ${ eventName }` );
-
-		// const callbackWrapper = ( data ) => {
-		// 	callback( data );
-		// 	this.remove( eventName, callbackWrapper );
-		// };
-
-		// this.on( eventName, callbackWrapper );
-	}
-
-	remove ( eventName, callback ) {
-		// console.log( `EventsController - remove ${ eventName }` );
-
-		// const callbackWrapper = this.#callbackWrappers[ callback ];
-		// this.#events[ eventName ] = this.#events[ eventName ].filter(
-		// 	callback => callback !== callbackWrapper
-		// );
-
-		// delete this.#callbackWrappers[ callback ]
-	}
+	remove ( eventName, callback ) { }
 
 	removeAll ( eventName ) { }
 }

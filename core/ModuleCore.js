@@ -63,10 +63,16 @@ export default class ModuleCore {
 	emitCommand ( command, data ) {
 		console.log( `ModuleCore - emitCommand - ${ command }` );
 
+		/// serialization here ?
 		this.#emit( command, data );
 	};
 
 	get eventBus ( ) {
 		return this.#eventBus;
+	}
+
+	/// debug only
+	debugData ( ) {
+		console.log( this.#data );
 	}
 }
