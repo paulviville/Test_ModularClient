@@ -5,14 +5,21 @@ const commandsManager = {
 	requestModule : "REQUEST_MODULE",
 	requestDelete : "REQUEST_DELETE",
 	addModule : "ADD_MODULE",
+	// setOwnership: "SET_OWNERSHIP",
 	removeModule : "REMOVE_MODULE",
 }
 
 
 export default class ModuleManager extends ModuleCore {
+	#clientId;
+	
 	#id;
-	#modules = new Map ( );
-	#nextId = 1;
+	#modules = new Map ( ); // id : module
+	#nextId = 1; // id to be set by server
+	#nextRequest = 0;
+
+	#pendingRequests = new Map ( ); // requestId : callback( module )
+	ownedModules = new Set ( ); // module ids
 
 	constructor ( id ) {
 		console.log( `ModuleManager - constructor - id: ${ id }` );
@@ -32,7 +39,8 @@ export default class ModuleManager extends ModuleCore {
 		console.log( `ModuleManager - onAddModule - id: ${ this.id }` );
 		console.log(data)
 
-		const { type, id } = data; 
+		/// add sender id? to find ownership
+		const { type, id, owner } = data; 
 		// console.log( type, id );
 		this.addModule( type, parseInt( id ) );
 	}

@@ -14,13 +14,12 @@ export default class ModuleCamera extends ModuleCore {
 		console.log( `ModuleCamera - constructor - id: ${ id }` );
 
 		super( id );
-
 		this.addCommandHandler( commandsCamera.updateCamera, ( data ) => this.onUpdateCamera( data ) );
 	}
 
 	setCamera ( matrix, emit = false ) {
 		console.log( `ModuleCamera - setCamera` );
-
+		super.debugData()
 		// this.#data.matrix.copy( matrix );
 		this.#data.matrix.length = 0;
 		this.#data.matrix.push( ...matrix );
@@ -40,8 +39,8 @@ export default class ModuleCamera extends ModuleCore {
 
 	}
 
-	/// debug only
-	debugData ( ) {
-		console.log( this.#data );
-	}
+	// /// debug only
+	// debugData ( ) {
+	// 	console.log( this.#data );
+	// }
 }

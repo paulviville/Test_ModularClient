@@ -1,82 +1,27 @@
 // import Module from "./modules/module.js";
 
+import ClientNetwork from "./ClientNetwork.js";
 import EventBus from "./core/EventBus.js";
-import ModuleManager from "./core/ModuleManager.js";
+import ModuleLambda from "./ModuleLambda.js";
 import ModuleTypes from "./modules/ModuleTypes.js";
+import ModulesManager from "./ModulesManager.js";
 
 
-class NetworkManager {
-	eventBuses = [];
-	
-	constructor( ) {
+const clientNetwork = new ClientNetwork( );
+clientNetwork.connect()
 
-	}
-
-	addEventBus ( eventBus ) {
-		this.eventBuses.push( eventBus );
-		return this.eventBuses.length - 1;
-	}
-
-	sendMessage ( id, message ) {
-		console.log( `NetworkManager - sendMessage - ${id}` );
-		for (let i = 0; i < this.eventBuses.length; ++i ) {
-			if ( i == id ) 
-				continue;
-			this.eventBuses[ i ].receiveMessage( message );
-		}
-	}
-}
-
-const networkManager = new NetworkManager();
-
-const eventBus = new EventBus( );
-const eventBus_ = new EventBus( );
-
-eventBus.registerNetworkManager( networkManager );
-eventBus_.registerNetworkManager( networkManager );
-
-console.log(ModuleTypes)
-
-// const modulePing = new ModuleTypes.Ping( 0 );
-// modulePing.register( eventBus );
-// const modulePing1 = new ModuleTypes.Ping( 1 );
-// modulePing1.register( eventBus );
-
-// eventBus.emitModule( 0, "PING", {});
-// eventBus.emitModule( 1, "PONG", {});
+const modulesManager = new ModulesManager( );
 
 
-const moduleManager0 = new ModuleManager( 0 );
-const moduleManager0_ = new ModuleManager( 0 );
-moduleManager0.register( eventBus );
-moduleManager0_.register( eventBus_ );
+modulesManager.input({command: "ADD_MODULE", data: {type: "ModuleLambda", uuid: crypto.randomUUID( )}})
 
-moduleManager0.emitCommand("REQUEST_MODULE", {type: "Camera"});
 
-window.modules = moduleManager0.modules;
-const moduleCamera = moduleManager0.modules.get(1);
-const moduleCamera_ = moduleManager0_.modules.get(1);
-console.log(moduleCamera)
-moduleCamera.setCamera(
-	[1,0,0,0
-	,0,1,0,0
-	,0,0,1,0
-	,0,0,0,1], true);
 
-moduleCamera_.setCamera(
-	[1,0,0,1
-	,0,1,0,2
-	,0,0,1,3
-	,0,0,0,1], true);
+console.log( modulesManager.modules )
+console.log( modulesManager.modulesList )
+console.log( modulesManager.commandsList( ) )
+modulesManager.input({command: "REMOVE_MODULE", data: { uuid: modulesManager.modulesList[1]}})
 
-moduleCamera.debugData()
-moduleCamera_.debugData()
-// const modulePing0 = new ModuleTypes.Ping( 0 );
-// modulePing0.register( eventBus );
-
-// const modulePing0_ = new ModuleTypes.Ping( 0 );
-// modulePing0_.register( eventBus_ );
-
-// modulePing0_.emitCommand("PING", {});
-// modulePing0_.ping();
-// modulePing0.emitCommand("PING", {});
+console.log( modulesManager.modules )
+console.log( modulesManager.modulesList )
+console.log( modulesManager.commandsList( ) )
