@@ -1,9 +1,15 @@
-import ModuleManager from "./core/ModuleManager.js";
+import ModulesManager from "./ModulesManager.js";
+
+const messageScope = {
+	system: "SYSTEM",
+	instance: "INSTANCE",
+	module: "MODULE",
+};
 
 export default class ClientNetwork {
 	#socket;
 	#uuid = crypto.randomUUID( );
-	#moduleManager = new ModuleManager( );
+	moduleManager = new ModulesManager( this );
 
 	constructor ( ) {
 		console.log(`ClientNetwork - constructor`);
@@ -50,6 +56,42 @@ export default class ClientNetwork {
 
 		const messageData = JSON.parse( message );
 		console.log( messageData );
-
+		console.log(messageData.scope, messageScope.module)
+		if ( messageData.scope == messageScope.module ) {
+			const { moduleUUID } = messageData.data;
+			this.receive ( moduleUUID,  messageData.data.message );
+		}
     }
+
+	send ( moduleUUID, message ) {
+		console.log( `ClientNetwork - send` );
+		console.log ( moduleUUID, message );
+		
+		const networkMessage = {
+			senderUUID: this.#uuid,
+			scope: "MODULE",
+			data: {
+				moduleUUID,
+				message,
+			},
+		}
+		
+
+		this.#socket.send(
+			JSON.stringify( networkMessage )
+		);
+	}
+
+	receive ( moduleUUID, data ) {
+		console.log( `ClientNetwork - receive` );
+
+		console.log ( moduleUUID, data );
+		console.log(this.moduleManager.modules)
+
+		const module = this.moduleManager.modules.get( moduleUUID );
+		console.log(module);
+		module.input( data );
+
+		console.log(this.moduleManager.modules)
+	}
 }

@@ -8,12 +8,16 @@ const commands = {
 
 export default class ModulesManager extends ModuleCore {
 	#modules = new Map ( );
+	#network;
 
-	constructor ( ) {
+	constructor ( network ) {
 		console.log( `ModulesManager - constructor` );
 
 		const uuid = "00000000-0000-0000-0000-000000000000";
 		super ( uuid, "ModulesManager" );
+
+		this.#network = network;
+		this.emitter = network;
 
 		this.addCommand( commands.addModule );
 		this.addCommand( commands.removeModule );
@@ -52,7 +56,7 @@ export default class ModulesManager extends ModuleCore {
 
 		/// if uuid is undefined, module.uuid isn't
 		this.#modules.set( module.uuid, module );
-
+		console.log(this.#modules)
 		if ( sync ) {
 			this.ouput( commands.addModule, { type: type, uuid: module.uuid } );
 		}
@@ -74,7 +78,7 @@ export default class ModulesManager extends ModuleCore {
 	}
 
 	get modules ( ) {
-		return [ ...this.#modules ];
+		return this.#modules;
 	}
 
 	get modulesList ( ) {

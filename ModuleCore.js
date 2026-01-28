@@ -1,10 +1,11 @@
 export default class ModuleCore {
 	#type;
 	#uuid;
+	#emit;
 
 	// #needsUpdate = false;
 	#handlers = new Map( );
-	#commands = new Set ( );
+	#commands = new Set( );
 
 	constructor ( uuid = crypto.randomUUID( ), type = "ModuleCore" ) {
 		console.log( `ModuleCore - constructor - ${ uuid } ${ type }` );
@@ -15,6 +16,13 @@ export default class ModuleCore {
 
 	get uuid ( ) {
 		return this.#uuid;
+	}
+
+	set emitter ( network ) {
+		console.log( `ModuleCore - emitter - ${ network }` );
+
+		this.#emit = network.send.bind( network, this.#uuid );
+		console.log(this.#emit)
 	}
 
 	addCommand ( command ) {
@@ -60,6 +68,9 @@ export default class ModuleCore {
 		
 		const message = this.encode( command, data );
 		console.log( "output: ", message );
+
+		this.#emit( message );
+		/// network output logic
 	}
 
 	commandsList ( ) {
