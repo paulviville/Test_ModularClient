@@ -9,7 +9,7 @@ const messageScope = {
 export default class ClientNetwork {
 	#socket;
 	#uuid = crypto.randomUUID( );
-	moduleManager = new ModulesManager( this );
+	moduleManager = new ModulesManager( this, this.send.bind( this ) );
 
 	constructor ( ) {
 		console.log(`ClientNetwork - constructor`);
@@ -55,8 +55,8 @@ export default class ClientNetwork {
 		console.log( `ClientNetwork - #handleOnMessage` );
 
 		const messageData = JSON.parse( message );
-		console.log( messageData );
-		console.log(messageData.scope, messageScope.module)
+		// console.log( messageData );
+		// console.log(messageData.scope, messageScope.module)
 		if ( messageData.scope == messageScope.module ) {
 			const { moduleUUID } = messageData.data;
 			this.receive ( moduleUUID,  messageData.data.message );
@@ -65,7 +65,8 @@ export default class ClientNetwork {
 
 	send ( moduleUUID, message ) {
 		console.log( `ClientNetwork - send` );
-		console.log ( moduleUUID, message );
+
+		// console.log ( moduleUUID, message );
 		
 		const networkMessage = {
 			senderUUID: this.#uuid,
@@ -75,7 +76,6 @@ export default class ClientNetwork {
 				message,
 			},
 		}
-		
 
 		this.#socket.send(
 			JSON.stringify( networkMessage )
@@ -85,13 +85,13 @@ export default class ClientNetwork {
 	receive ( moduleUUID, data ) {
 		console.log( `ClientNetwork - receive` );
 
-		console.log ( moduleUUID, data );
-		console.log(this.moduleManager.modules)
+		// console.log ( moduleUUID, data );
+		// console.log(this.moduleManager.modules)
 
 		const module = this.moduleManager.modules.get( moduleUUID );
-		console.log(module);
+		// console.log(module);
 		module.input( data );
 
-		console.log(this.moduleManager.modules)
+		// console.log(this.moduleManager.modules)
 	}
 }
