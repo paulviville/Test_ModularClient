@@ -46,4 +46,8 @@ export default class ModuleCamera extends ModuleCore {
 
 		this.#data.matrix = [ ...stateData.matrix ];
 	}
+
+	get matrix ( ) {
+		return [ ...this.#data.matrix ];
+	}
 }

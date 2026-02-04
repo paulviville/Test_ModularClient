@@ -10,6 +10,9 @@ const commands = {
 export default class ModulesManager extends ModuleCore {
 	#modules = new Map ( );
 	#outputFn;
+	#onAddFn;
+	#onRemoveFn;
+
 
 	constructor ( network, outputFn ) {
 		console.log( `ModulesManager - constructor` );
@@ -61,6 +64,8 @@ export default class ModulesManager extends ModuleCore {
 		if ( sync ) {
 			this.ouput( commands.addModule, { type: type, uuid: module.uuid } );
 		}
+
+		this.#onAddFn?.( module );
 	}
 
 	removeModule ( uuid, sync = false ) {
@@ -68,6 +73,10 @@ export default class ModulesManager extends ModuleCore {
 
 		if ( this.#modules.has( uuid ) ) {
 			const module = this.#modules.get( uuid );
+
+			this.#onRemoveFn?.( module );
+
+
 			module.delete( );
 
 			this.#modules.delete( uuid );
@@ -76,6 +85,13 @@ export default class ModulesManager extends ModuleCore {
 				this.ouput( commands.removeModule, { uuid: uuid } );
 			}
 		}
+	}
+
+	setModuleProcessing ( onAddFn, onRemoveFn ) {
+		console.log( `ModulesManager - setModuleProcessing` );
+
+		this.#onAddFn = onAddFn;
+		this.#onRemoveFn = onRemoveFn;
 	}
 
 	get modules ( ) {
