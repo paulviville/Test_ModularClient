@@ -1,13 +1,13 @@
 import { Object3D } from "./three/three.module.js";
 import GraphicsModuleTypes from "./GraphicsModuleTypes.js";
 
-export default class GraphicsModulesManager extends Object3D{
+export default class GraphicsModulesManager extends Object3D {
 	#graphicsModules = new Map ( );
 
 	constructor ( ) {
 		console.log( `GraphicsModulesManager - constructor` );
-		super( );
 
+		super( );
 	}
 
 	register ( modulesManager ) {
@@ -34,12 +34,16 @@ export default class GraphicsModulesManager extends Object3D{
 		}
 
 		const graphicsModule = new constructor( module );
-		this.#graphicsModules.set ( uuid, graphicsModule );
+		this.#graphicsModules.set( uuid, graphicsModule );
 		this.add( graphicsModule );
 	}
 
 	#removeGraphicsModule ( module ) {
 		console.log( `GraphicsModulesManager - #removeGraphicsModule` );
+
+		const graphicsModule = this.#graphicsModules.get( module.uuid );
+		this.remove( graphicsModule );
+		/// delete graphicsModule TBD
 		console.log( module );
 	}
 }

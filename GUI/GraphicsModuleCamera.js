@@ -1,11 +1,8 @@
-import { CameraHelper, Object3D, PerspectiveCamera } from "./three/three.module.js";
-
-const dummyCamera = new PerspectiveCamera( 50, 2 / 3, 0.02, 0.5 );
-
+import { Matrix4, CameraHelper, Object3D, PerspectiveCamera } from "./three/three.module.js";
 
 export default class GraphicsModuleCamera extends Object3D {
 	#module;
-	#cameraHelper = new CameraHelper( dummyCamera );
+	#cameraHelper = new CameraHelper( new PerspectiveCamera( 50, 4 / 3, 0.02, 0.5 ) );
 
 	constructor ( module ) {
 		console.log( `GraphicsModuleCamera - constructor` );
@@ -19,8 +16,9 @@ export default class GraphicsModuleCamera extends Object3D {
 	}
 
 	#update ( ) {
-		const matrix = this.#module.matrix;
+		const matrix = new Matrix4( ).fromArray( this.#module.matrix );
 
-		console.log( matrix );
-	} 
+		this.#cameraHelper.matrix.copy( matrix );
+		this.#cameraHelper.update( );
+	}
 }

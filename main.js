@@ -21,27 +21,20 @@ console.log( clientNetwork.moduleManager.commandsList( ) )
 window.modules = [];
 window.addModule = ( type ) => {
 	const uuid = crypto.randomUUID( );
-	clientNetwork.moduleManager.addModule( type, uuid, true);
+	clientNetwork.moduleManager.addModule( type, uuid, true, clientNetwork.uuid );
 	window.modules.push( clientNetwork.moduleManager.modules.get( uuid ) )
 }
 
 let cameraModule;
 window.camera = ( ) => {
 	const uuid = crypto.randomUUID( );
-	clientNetwork.moduleManager.addModule( "ModuleCamera", uuid, true);
-	window.cameraModule = clientNetwork.moduleManager.modules.get( uuid );
+	clientNetwork.moduleManager.addModule( "ModuleCamera", uuid, true, clientNetwork.uuid);
+	const cameraModule = clientNetwork.moduleManager.modules.get( uuid );
 	console.log(cameraModule);
-}
-
-window.test = ( ) => {
-	console.log( clientNetwork.moduleManager.modules )
-	clientNetwork.moduleManager.addModule( "ModuleLambda", crypto.randomUUID( ), true);
-	console.log( clientNetwork.moduleManager.modules )
-	console.log(clientNetwork.moduleManager.state)
-}
-
-window.test2 = ( ) => {
-	clientNetwork.moduleManager.input({command: "SET_STATE", data: {test: 0}})
+	sceneController.controls.addEventListener(`change`, ( event ) => {
+		const matrix = sceneController.camera.matrix.toArray();
+		cameraModule.updateCamera( matrix, true );
+	});
 }
 
 const sceneController = new SceneController( );
@@ -51,3 +44,16 @@ const graphicsModulesManager = new GraphicsModulesManager( );
 graphicsModulesManager.register( clientNetwork.moduleManager );
 
 sceneController.scene.add( graphicsModulesManager );
+
+
+window.grabCamera = ( ) => {
+	const uuid = clientNetwork.moduleManager.modulesList[1];
+	cameraModule = clientNetwork.moduleManager.modules.get( uuid );
+	console.log(cameraModule)
+	sceneController.controls.addEventListener(`change`, ( event ) => {
+		const matrix = sceneController.camera.matrix.toArray();
+		cameraModule.updateCamera( matrix, true );
+	});
+}
+
+

@@ -24,6 +24,8 @@ export default class ModuleCamera extends ModuleCore {
 		if ( sync ) {
 			this.ouput( commands.updateCamera, { matrix: matrix } );
 		}
+
+		this.onChange( );
 	}
 
 	onUpdateCamera ( data ) {
@@ -31,8 +33,6 @@ export default class ModuleCamera extends ModuleCore {
 
 		const { matrix } = data;
 		this.updateCamera( matrix );
-
-		this.onChange( );
 	}
 
 	get state ( ) {
@@ -44,7 +44,8 @@ export default class ModuleCamera extends ModuleCore {
 	set state ( stateData ) {
 		console.log( stateData );
 
-		this.#data.matrix = [ ...stateData.matrix ];
+		const { matrix } = stateData;
+		this.updateCamera( matrix );
 	}
 
 	get matrix ( ) {

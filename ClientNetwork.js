@@ -94,4 +94,8 @@ export default class ClientNetwork {
 
 		// console.log(this.moduleManager.modules)
 	}
+
+	get uuid ( ) {
+		return this.#uuid;
+	}
 }
