@@ -37,6 +37,14 @@ window.camera = ( ) => {
 	});
 }
 
+let primitiveModule;
+window.box = ( ) => {
+	const uuid = crypto.randomUUID( );
+	clientNetwork.moduleManager.addModule( "ModulePrimitive", uuid, true, clientNetwork.uuid);
+	window.primitiveModule = clientNetwork.moduleManager.modules.get( uuid );
+
+}
+
 const sceneController = new SceneController( );
 sceneController.startRender( );
 

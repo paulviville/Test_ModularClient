@@ -1,8 +1,10 @@
 import GraphicsModuleCamera from "./GraphicsModuleCamera.js";
+import GraphicsModulePrimitive from "./GraphicsModulePrimitive.js";
 
 const GraphicsModuleTypes = {
 	// ModuleLambda: ModuleLambda,
 	ModuleCamera: GraphicsModuleCamera,
+	ModulePrimitive: GraphicsModulePrimitive,
 	// ModuleTransform: ModuleTransform,
 	// ModuleText: ModuleText,
 }

@@ -23,6 +23,11 @@ export default class SceneController {
 		this.#camera.position.set( -2, 3, -3 );
 		this.#orbitControls = new OrbitControls( this.#camera, this.#renderer.domElement);
 
+		const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+		this.#scene.add(ambientLight);
+		const pointLight = new THREE.PointLight( 0xffffff, 120);
+		pointLight.position.set(-2, 3, -4);
+		this.#scene.add(pointLight);
 		this.#addDebug( );
 	}
 
@@ -58,6 +63,7 @@ export default class SceneController {
 	startRender ( ) {
 		this.#renderer.setAnimationLoop( this.#animate.bind(this) );
 	}
+	
 	stopRender ( ) {
 		this.#renderer.setAnimationLoop(null);
 	}
